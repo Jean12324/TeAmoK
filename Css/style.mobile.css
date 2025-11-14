@@ -59,3 +59,8 @@ body {
 .love-body {
   font-size: 0.95rem;
 }
+
+/* BOOM más pequeño pero centrado igual */
+.love-boom {
+  font-size: clamp(2.1rem, 8vw, 3.2rem);
+}

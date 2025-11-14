@@ -38,7 +38,7 @@ function drawFog() {
 
   fogCtx.globalCompositeOperation = "lighter";
 
-  clouds.forEach((c, idx) => {
+  clouds.forEach((c) => {
     // movimiento base (horizontal + pequeña variación vertical)
     c.x += c.speedX;
     c.y += c.offsetY;
