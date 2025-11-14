@@ -1,0 +1,303 @@
+/* ========= FONDO GENERAL ========= */
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #0c1014, #05080c 70%, #010204);
+  color: #fff;
+  font-family: system-ui;
+}
+
+/* ========= ESCENA ========= */
+.scene {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* ========= CORONA MEJORADA ========= */
+.crown-wrapper {
+  position: relative;
+  width: 560px;
+  max-width: 70vw;
+  opacity: 0;
+  transform: scale(0.85) translateY(30px);
+  animation: crownEnter 1.8s cubic-bezier(0.2, 0.75, 0.15, 1) forwards;
+}
+
+/* HALO DORADO DETRÁS DE LA CORONA */
+.crown-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -40px -80px -60px -80px;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 230, 130, 0.35) 0%,
+    rgba(255, 210, 80, 0.20) 28%,
+    rgba(255, 185, 40, 0.05) 50%,
+    transparent 75%
+  );
+  filter: blur(38px);
+  z-index: -1;
+  opacity: 0;
+  animation: haloFadeIn 2.5s ease-in forwards 0.6s;
+}
+
+@keyframes haloFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.crown-img {
+  width: 100%;
+
+  /* sombras profundas + brillo dorado + resplandor verde */
+  filter:
+    drop-shadow(0 35px 55px rgba(0,0,0,0.9))
+    drop-shadow(0 0 30px rgba(0,255,200,0.35))
+    drop-shadow(0 0 15px rgba(255,230,140,0.3));
+
+  transform-origin: center bottom;
+
+  animation:
+    crownBreath 6s ease-in-out infinite alternate,
+    crownGlow 6s ease-in-out infinite alternate,
+    crownSwing 5.5s ease-in-out infinite alternate;
+}
+
+/* luz profunda debajo de la corona */
+.crown-wrapper::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -22px;
+  transform: translateX(-50%);
+  width: 84%;
+  height: 30px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,0.9) 0%,
+    transparent 70%
+  );
+  filter: blur(5px);
+  opacity: 0;
+  animation: shadowIn 1.4s ease 0.4s forwards;
+}
+
+/* entrada */
+@keyframes crownEnter {
+  0% { opacity: 0; transform: scale(0.8) translateY(50px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* sombra aparece */
+@keyframes shadowIn {
+  0% { opacity: 0; transform: translateX(-50%) scaleX(0.7); }
+  100% { opacity: 1; transform: translateX(-50%) scaleX(1); }
+}
+
+/* respiración suave */
+@keyframes crownBreath {
+  0% { transform: translateY(4px) scale(1); }
+  100% { transform: translateY(-2px) scale(1.015); }
+}
+
+/* brillo dorado + brillo verde intermitente */
+@keyframes crownGlow {
+  0% {
+    filter:
+      drop-shadow(0 35px 55px rgba(0,0,0,0.9))
+      drop-shadow(0 0 25px rgba(0,255,170,0.2))
+      drop-shadow(0 0 12px rgba(255,225,150,0.25));
+  }
+  100% {
+    filter:
+      drop-shadow(0 38px 60px rgba(0,0,0,0.95))
+      drop-shadow(0 0 38px rgba(0,255,210,0.35))
+      drop-shadow(0 0 26px rgba(255,235,170,0.45));
+  }
+}
+
+/* micro–balanceo elegante */
+@keyframes crownSwing {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(0.6deg); }
+}
+
+/* ========= NIEBLA – CAPAS QUE PASAN ========= */
+#fog-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  /* más sutil, para que no tape todo */
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  filter: blur(26px);
+}
+
+/* ========= PETALOS ========= */
+#floating-objects {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.petalo {
+  position: absolute;
+  width: 22px;
+  height: 34px;
+  border-radius: 55% 45% 65% 35%;
+  background: radial-gradient(circle at 30% 25%, #fff3fa, #ffb4d9 40%, #ff69a2 90%);
+  opacity: 0.92;
+  filter: drop-shadow(0 8px 16px rgba(255,110,160,0.55));
+  transform-origin: center;
+}
+.petalo::before {
+  content: "";
+  position: absolute;
+  inset: 20% 25% 40% 25%;
+  border-radius: inherit;
+  background: radial-gradient(circle, white 0%, transparent 70%);
+  opacity: 0.7;
+}
+
+/* ========= SPARKLES ========= */
+#sparkles-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+}
+.sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff, #ffe7b2, transparent);
+  box-shadow: 0 0 12px rgba(255,255,240,0.9);
+  opacity: 0;
+  animation: sparkleBlink 2.2s ease-in-out infinite;
+}
+@keyframes sparkleBlink {
+  0% { opacity: 0; transform: scale(0.5); }
+  30% { opacity: 1; transform: scale(1); }
+  70% { opacity: 0.5; transform: scale(0.7); }
+  100% { opacity: 0; transform: scale(0.4); }
+}
+
+/* ========= TEXTO ROMÁNTICO TIPO CRÉDITOS ========= */
+
+.love-text-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end; /* arranca desde abajo como créditos */
+  justify-content: center;
+  z-index: 13;           /* encima de la corona, debajo de pétalos y sparkles */
+  pointer-events: none;
+}
+
+.love-text-inner {
+  max-width: 720px;
+  padding: 0 1.8rem 3.6rem;
+  text-align: center;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #fdfdfd;
+  text-shadow:
+    0 0 6px rgba(0,0,0,0.85),
+    0 0 16px rgba(0,0,0,0.9);
+  opacity: 0;
+
+  /* 2 animaciones: aparece + scroll tipo créditos */
+  animation:
+    loveFadeIn 2s ease-out 2.2s forwards,
+    loveScroll 38s linear 2.4s forwards;
+}
+
+.love-subtitle {
+  font-size: 1.45rem;
+  margin: 0 0 1.4rem;
+  font-weight: 600;
+}
+
+.love-body {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  white-space: pre-line; /* respeta tus saltos de línea del template literal */
+}
+
+/* fade-in inicial */
+@keyframes loveFadeIn {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* scroll vertical tipo créditos de película
+   -> arranca un poco abajo y se va BIEN arriba */
+@keyframes loveScroll {
+  0% {
+    transform: translateY(20%);
+  }
+  100% {
+    transform: translateY(-220%);
+  }
+}
+
+/* ========= BOOM FINAL: TE AMO KRISCIAL ========= */
+
+.love-boom {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.6);
+  font-size: clamp(2.8rem, 7vw, 4.6rem);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #7bffd1;
+  text-shadow:
+    0 0 12px rgba(0,0,0,0.95),
+    0 0 30px rgba(0,255,190,0.8),
+    0 0 60px rgba(0,255,210,0.8);
+}
+
+/* cuando se activa */
+.love-boom.show {
+  animation: loveBoom 3s ease-out forwards;
+}
+
+@keyframes loveBoom {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.0);
+  }
+  80% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
